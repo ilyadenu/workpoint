@@ -58,7 +58,8 @@ def find_min_x():  # Функция нахождения значения мин
     average_min_x.append(average)
 
 
-directory = 'C:\\Users\\user\\Desktop\\50 измерений\\'
+directory = '/home/admin/Work/50_измерений'
+
 
 for filename in os.listdir(directory):
     f = os.path.join(directory, filename)

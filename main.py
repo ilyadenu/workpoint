@@ -1,10 +1,8 @@
 # Блок импортов
 import numpy as np
 from matplotlib import pyplot as plt
-from approximation import Uf_approx_sinus
+# from approximation import Uf
 from position_find import graph, osc_time, graph_saw, U0, Um
-
-time = np.linspace(-5*10e-7, 5*10e-7, 35)
 
 
 def u(u0, um):  # Функция синусоидального сигнала, который подается на рабочую точку
@@ -19,5 +17,4 @@ def u(u0, um):  # Функция синусоидального сигнала, 
 # plt.plot(graph_saw[0][495:530], graph[0][495:530])  # зависимость сигнала фотоприемника от пилы
 # plt.plot(np.linspace(-5*10e-7, 5*10e-7, 45), u(U0, Um)[485:530])  # зависимость синусоиды от времени
 # plt.plot(graph[0][485:530], u(U0, Um)[485:530])  # зависимость аппроксимированного сигнала фотоприемника от синусоиды
-# plt.plot(time, Uf_approx_sinus)  # зависимость аппроксимированного сигнала фотоприемника от времени синусоиды
 # plt.show()
