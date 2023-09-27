@@ -16,7 +16,7 @@ average_min_x = []  # Список средних значений миниму�
 
 def find_max_position_x():  # Функция поиска номера максимума в списке graph
     a = []
-    for g in range(7, 8):
+    for g in range(1, 2):
         a.append(graph[g][485:530])
         a1 = a[0]
         b = max(graph[g][485:530])
@@ -27,7 +27,7 @@ def find_max_position_x():  # Функция поиска номера макс�
 
 def find_min_position_x():  # Функция поиска номера минимума в списке graph
     a = []
-    for g in range(7, 8):
+    for g in range(1, 2):
         a.append(graph[g][440:480])
         a1 = a[0]
         b = min(graph[g][440:480])
@@ -58,8 +58,8 @@ def find_min_x():  # Функция нахождения значения мин
     average_min_x.append(average)
 
 
-directory = '/home/admin/Work/50_измерений'
-
+# directory = '/home/admin/Work/50_измерений'
+directory = '/home/ilya/Desktop/50 измерений'
 
 for filename in os.listdir(directory):
     f = os.path.join(directory, filename)
