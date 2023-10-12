@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 import os
 
@@ -14,9 +15,16 @@ average_max_x = []  # Список средних значений максим�
 average_min_x = []  # Список средних значений минимумов, посчитанный из find_position_min
 
 
-def find_max_position_x():  # Функция поиска номера максимума в списке graph
+def u(u0, um):  # Функция синусоидального сигнала, который подается на рабочую точку
+    f = 1e7
+    omega = 2 * np.pi * f
+    t = np.linspace(-5*10e-7, 5*10e-7, 1000)
+    return u0 + um*np.sin(omega*t)
+
+
+def find_max_position_x(left_border: int, right_border: int):  # Функция поиска номера максимума в списке graph
     a = []
-    for g in range(1, 2):
+    for g in range(left_border, right_border):
         a.append(graph[g][485:530])
         a1 = a[0]
         b = max(graph[g][485:530])
@@ -25,9 +33,9 @@ def find_max_position_x():  # Функция поиска номера макс�
                 find_position_max.append(485 + i)
 
 
-def find_min_position_x():  # Функция поиска номера минимума в списке graph
+def find_min_position_x(left_border: int, right_border: int):  # Функция поиска номера минимума в списке graph
     a = []
-    for g in range(1, 2):
+    for g in range(left_border, right_border):
         a.append(graph[g][440:480])
         a1 = a[0]
         b = min(graph[g][440:480])
@@ -36,8 +44,8 @@ def find_min_position_x():  # Функция поиска номера мини�
                 find_position_min.append(440 + i)
 
 
-def find_max_x():  # Функция нахождения значения максимума по оси x
-    find_max_position_x()
+def find_max_x(l_border: int, r_border: int):  # Функция нахождения значения максимума по оси x
+    find_max_position_x(l_border, r_border)
     value_origin = []
     for i in range(len(find_position_max)):
         unit = find_position_max[i]
@@ -47,8 +55,8 @@ def find_max_x():  # Функция нахождения значения мак
     average_max_x.append(average)
 
 
-def find_min_x():  # Функция нахождения значения минимума по оси x
-    find_min_position_x()
+def find_min_x(l_border: int, r_border: int):  # Функция нахождения значения минимума по оси x
+    find_min_position_x(l_border, r_border)
     value_origin = []
     for i in range(len(find_position_min)):
         unit = find_position_min[i]
@@ -58,8 +66,8 @@ def find_min_x():  # Функция нахождения значения мин
     average_min_x.append(average)
 
 
-# directory = '/home/admin/Work/50_измерений'
-directory = '/home/ilya/Desktop/50 измерений'
+directory = '/home/admin/Work/50_измерений'
+# directory = '/home/ilya/Desktop/50 измерений'
 
 for filename in os.listdir(directory):
     f = os.path.join(directory, filename)
@@ -78,9 +86,21 @@ for file_change in path_list:
     max_list.append(max(origin[485:530]))
 
 
-find_max_x()
-find_min_x()
-U0 = (average_max_x[0]+average_min_x[0])/3
-Um = (average_max_x[0]-U0)/1
+def u_params_calc(l_border: int, r_border: int):
 
-# print("Значение параметра U0 =", U0, "\n", "Значение параметра Um =", Um)
+    find_max_x(l_border, r_border)
+    find_min_x(l_border, r_border)
+
+    u0 = (average_max_x[0]+average_min_x[0])/3
+    um = (average_max_x[0]-u0)/1
+
+    return u0, um
+
+# # print("Значение параметра U0 =", U0, "\n", "Значение параметра Um =", Um)
+#
+# # plt.plot(osc_time, graph[0])  # исходный график сигнала
+# # plt.plot(osc_time, graph_saw[0])  # исходный график пилы
+# # plt.plot(graph_saw[0][495:530], graph[0][495:530])  # зависимость сигнала фотоприемника от пилы
+# # plt.plot(np.linspace(-5*10e-7, 5*10e-7, 45), u(U0, Um)[485:530])  # зависимость синусоиды от времени
+# # plt.show()
+

@@ -1,12 +1,13 @@
 import numpy as np
 from approximation import Uf
 
+
 time_for_sin = np.linspace(-5*10e-7, 5*10e-7, 870)
 
 
-def frequency_calculation(time_for_func: list[int], uf: list[int]) -> float:
-    time_max = []
+def frequency_calculation(time_for_func: list[float], uf) -> float:
     time_min = []
+    time_max = []
     period_max = []
     period_min = []
 
@@ -37,4 +38,4 @@ def frequency_calculation(time_for_func: list[int], uf: list[int]) -> float:
 
 frequency = frequency_calculation(time_for_sin, Uf)
 
-# print(frequency)
+
