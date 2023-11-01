@@ -1,13 +1,13 @@
 from approximation import uf_func
 
-Uf = uf_func(11, 12)[0]
+Uf = uf_func(7, 8)[0]
 
 
 def max_min_find(uf: list[float]):
     minimal = []
     maximal = []
     count = 0
-    for cnt in range(0, 5):
+    for cnt in range(0, 4):
         uf_for = uf[count:]
 
         for j in range(len(uf_for)):

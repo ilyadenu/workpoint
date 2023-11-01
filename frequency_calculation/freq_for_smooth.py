@@ -2,9 +2,9 @@ import numpy as np
 from approximation import uf_func
 from max_min_find import max_min_find
 
-Uf = uf_func(11, 12)[0]
+Uf = uf_func(7, 8)[0]
 time_for_sin = np.linspace(-5*10e-7, 5*10e-7, 870)
-maximal = max_min_find(Uf)[0][:2]
+maximal = max_min_find(Uf)[0][1:]
 minimal = max_min_find(Uf)[1]
 
 
@@ -32,8 +32,8 @@ def frequency_calculation(time_for_func, maximal, minimal, uf) -> float:
         time_min_calc = abs(time_min[h] - time_min[h+1])
         period_min.append(time_min_calc)
 
-    period_max_aver = sum(period_max)/2
-    period_min_aver = sum(period_min)/3
+    period_max_aver = sum(period_max)/1
+    period_min_aver = sum(period_min)/2
     period_fin = (period_max_aver+period_min_aver)/2
 
     func_frequency = (2*np.pi)/period_fin
@@ -42,5 +42,5 @@ def frequency_calculation(time_for_func, maximal, minimal, uf) -> float:
 
 
 frequency_for_smooth = frequency_calculation(time_for_sin, maximal, minimal, Uf)
-
+# print(frequency_for_smooth)
 

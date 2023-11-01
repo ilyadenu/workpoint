@@ -16,9 +16,9 @@ def fourier_func(f, y_f: list[float], time: list[float]) -> list[float]:
 
 
 time_for_sin = np.linspace(-5*10e-7, 5*10e-7, 1000)
-Uf = (uf_func(11, 12))[0]
+Uf = (uf_func(7, 8))[0]
 dot_value = 1000
-yf = fft(uf_func(11, 12)[0])
+yf = fft(uf_func(7, 8)[0])
 # yf = fftshift(yf)
 # print(np.abs(yf))
 xf = fftfreq(dot_value, 1 / frequency_for_smooth)
@@ -54,8 +54,9 @@ clear_sig = ifft(yf)
 # yf1 = fft(clear_sig)
 # xf1 = fftfreq(dot_value, 1 / frequency)
 
-# plt.ylabel('Интенсивность, Вт/м2')
-# plt.xlabel('Время,с')
+plt.title('Очищенный сигнал')
+plt.ylabel('Напряжение, В')
+plt.xlabel('Время, с')
 plt.grid(True)
 # plt.plot(xf1, np.abs(yf1))
 plt.plot(time_for_sin, clear_sig)

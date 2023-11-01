@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 import os
 
 
@@ -66,8 +67,8 @@ def find_min_x(l_border: int, r_border: int):  # Функция нахожден
     average_min_x.append(average)
 
 
-directory = '/home/admin/Work/50_измерений'
-# directory = '/home/ilya/Desktop/50 измерений'
+# directory = '/home/admin/Work/50_измерений'
+directory = '/home/ilya/Desktop/50 измерений'
 
 for filename in os.listdir(directory):
     f = os.path.join(directory, filename)
@@ -82,8 +83,6 @@ for file_change in path_list:
     osc_time = df['1'].to_list()
     graph.append(origin)
     graph_saw.append(saw)
-    min_list.append(min(origin[440:480]))
-    max_list.append(max(origin[485:530]))
 
 
 def u_params_calc(l_border: int, r_border: int):
@@ -96,11 +95,18 @@ def u_params_calc(l_border: int, r_border: int):
 
     return u0, um
 
-# # print("Значение параметра U0 =", U0, "\n", "Значение параметра Um =", Um)
-#
-# # plt.plot(osc_time, graph[0])  # исходный график сигнала
-# # plt.plot(osc_time, graph_saw[0])  # исходный график пилы
-# # plt.plot(graph_saw[0][495:530], graph[0][495:530])  # зависимость сигнала фотоприемника от пилы
-# # plt.plot(np.linspace(-5*10e-7, 5*10e-7, 45), u(U0, Um)[485:530])  # зависимость синусоиды от времени
-# # plt.show()
+
+graph_up = [i*250 for i in graph[7]]
+# plt.figure()
+# plt.title('Начальные условия')
+# plt.ylabel('Входное и пилообразное напряжение, В')
+# plt.xlabel('Время, с')
+# plt.grid(True)
+# print("Значение параметра U0 =", U0, "\n", "Значение параметра Um =", Um)
+# plt.plot(osc_time, graph_up, label='Входной сигнал * 250')  # исходный график сигнала
+# plt.plot(osc_time, graph_saw[7], label='Сигнал пилообразного напряжения')  # исходный график пилы
+# plt.plot(graph_saw[0][495:530], graph[0][495:530])  # зависимость сигнала фотоприемника от пилы
+# plt.plot(np.linspace(-5*10e-7, 5*10e-7, 45), u(U0, Um)[485:530])  # зависимость синусоиды от времени
+# plt.legend()
+# plt.show()
 
