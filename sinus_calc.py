@@ -15,10 +15,12 @@ find_position_min = []  # Список номеров минимальных з�
 average_max_x = []  # Список средних значений максимумов, посчитанный из find_position_max
 average_min_x = []  # Список средних значений минимумов, посчитанный из find_position_min
 
+left = 8
+right = 9
+
 
 def u(u0, um):  # Функция синусоидального сигнала, который подается на рабочую точку
-    f = 1e7
-    omega = 2 * np.pi * f
+    omega = 1e7
     t = np.linspace(-5*10e-7, 5*10e-7, 1000)
     return u0 + um*np.sin(omega*t)
 
@@ -67,8 +69,8 @@ def find_min_x(l_border: int, r_border: int):  # Функция нахожден
     average_min_x.append(average)
 
 
-# directory = '/home/admin/Work/50_измерений'
-directory = '/home/ilya/Desktop/50 измерений'
+directory = '/home/admin/Work/50_измерений'
+# directory = '/home/ilya/Desktop/50 измерений'
 
 for filename in os.listdir(directory):
     f = os.path.join(directory, filename)
@@ -96,17 +98,19 @@ def u_params_calc(l_border: int, r_border: int):
     return u0, um
 
 
-graph_up = [i*250 for i in graph[7]]
+# graph_up = [i*250 for i in graph[left]]
+# U0 = u_params_calc(left, right)[0]
+# Um = u_params_calc(left, right)[1]
 # plt.figure()
-# plt.title('Начальные условия')
-# plt.ylabel('Входное и пилообразное напряжение, В')
-# plt.xlabel('Время, с')
+# plt.title('Зависимость Uфп от Uп')
+# plt.ylabel('Uфп, В')
+# plt.xlabel('Uп, В')
 # plt.grid(True)
 # print("Значение параметра U0 =", U0, "\n", "Значение параметра Um =", Um)
-# plt.plot(osc_time, graph_up, label='Входной сигнал * 250')  # исходный график сигнала
-# plt.plot(osc_time, graph_saw[7], label='Сигнал пилообразного напряжения')  # исходный график пилы
-# plt.plot(graph_saw[0][495:530], graph[0][495:530])  # зависимость сигнала фотоприемника от пилы
-# plt.plot(np.linspace(-5*10e-7, 5*10e-7, 45), u(U0, Um)[485:530])  # зависимость синусоиды от времени
+# plt.plot(osc_time, graph_up, label='Uфп * 250')  # исходный график сигнала
+# plt.plot(osc_time, graph_saw[left], label='Uп')  # исходный график пилы
+# plt.plot(graph_saw[left][495:530], graph[left][495:530])  # зависимость сигнала фотоприемника от пилы
+# plt.plot(np.linspace(-5*10e-7, 5*10e-7, 1000), u(U0, Um))  # зависимость синусоиды от времени
 # plt.legend()
 # plt.show()
 

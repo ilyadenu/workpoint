@@ -1,6 +1,7 @@
 from approximation import uf_func
+from sinus_calc import left, right
 
-Uf = uf_func(7, 8)[0]
+Uf = uf_func(left, right)[0]
 
 
 def max_min_find(uf: list[float]):

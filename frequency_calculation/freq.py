@@ -1,41 +1,52 @@
 import numpy as np
-from approximation import Uf
+from approximation import Uf_approx_sinus
+
+time_for_sin = np.linspace(-5*10e-7, 5*10e-7, 1000)
 
 
-time_for_sin = np.linspace(-5*10e-7, 5*10e-7, 870)
+def freq(uf_appr: list[float]) -> float:
 
-
-def frequency_calculation(time_for_func: list[float], uf) -> float:
+    min_list = []
+    max_list = []
     time_min = []
     time_max = []
-    period_max = []
     period_min = []
+    period_max = []
 
-    for i in range(len(time_for_func)):
-        if uf[i] > -6.9:
-            time_max.append(time_for_func[i])
+    count = uf_appr[0]
 
-    for j in range(len(time_for_func)):
-        if uf[j] < -9.7:
-            time_min.append(time_for_func[j])
+    for i in range(1, len(uf_appr)):
 
-    for g in range(0, 110):
-        time_max_calc = abs(time_max[g] - time_max[g+1])
+        if count > uf_appr[i]:
+            count = uf_appr[i]
+
+        elif uf_appr[i-2] > count < uf_appr[i+2]:
+            min_list.append(count)
+            time_min.append(time_for_sin[i])
+
+        elif count < uf_appr[i+1]:
+            count = uf_appr[i+1]
+
+        else:
+            max_list.append(count)
+            time_max.append(time_for_sin[i])
+
+    for g in range(len(time_max) - 1):
+        time_max_calc = abs(time_max[g] - time_max[g + 1])
         period_max.append(time_max_calc)
 
-    for h in range(0, 110):
-        time_min_calc = abs(time_min[h] - time_min[h+1])
+    for h in range(len(time_min) - 1):
+        time_min_calc = abs(time_min[h] - time_min[h + 1])
         period_min.append(time_min_calc)
 
-    period_max_aver = sum(period_max)/111
-    period_min_aver = sum(period_min)/111
-    period_fin = (period_max_aver+period_min_aver)/2
+    period_max_aver = sum(period_max) / len(period_max)
+    period_min_aver = sum(period_min) / len(period_min)
+    period_fin = (period_max_aver + period_min_aver) / 2
 
-    func_frequency = (2*np.pi)/period_fin
+    func_frequency = (2 * np.pi) / period_fin
 
     return func_frequency
 
 
-frequency = frequency_calculation(time_for_sin, Uf)
-
+freq = freq(Uf_approx_sinus)
 

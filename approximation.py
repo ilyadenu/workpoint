@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
-from sinus_calc import u, graph_saw, graph
+from sinus_calc import u, graph_saw, graph, left, right
 from sinus_calc import u_params_calc
 
 
@@ -17,68 +17,61 @@ def sin_f(x, a, b, c, d):  # функция для аппроксимации с
     return 5 * a * np.sin(b * x + c) + d
 
 
-gs = graph_saw[0][495:530]  # массив значений пилы
-g = graph[0][495:530]  # массив значений сигнала
-saw_approx = np.linspace(min(gs), max(gs), 35)
-# U0 = u_params_calc(7, 8)[0]
-# Um = u_params_calc(7, 8)[1]
-# sinus = u(U0, Um)  # вычисленный синус
-# sinus2 = u(U0, Um)[365:400]  # кусок синуса для выходного сигнала
-time = np.linspace(-5 * 10e-7, 5 * 10e-7, 35)  # время для куска синуса
+gs = graph_saw[left][495:530]  # массив значений пилы
+g = graph[left][495:530]  # массив значений сигнала
+saw_approx = np.linspace(min(gs), max(gs), 1000)
 time_for_sin = np.linspace(-5 * 10e-7, 5 * 10e-7, 1000)  # время для аппроксимированного синуса
 
 
 def g_gs_approx(l_border: int, r_border: int) -> tuple:
-    popt, pcov = curve_fit(logarithmic_f, gs, g, p0=[1000, -1000, -0.000001])
+
+    popt, pcov = curve_fit(logarithmic_f, gs, g, p0=[1000, -100, -0.00001])
 
     a_opt, b_opt, c_opt = popt
 
     u0 = u_params_calc(l_border, r_border)[0]
     um = u_params_calc(l_border, r_border)[1]
     sinus = u(u0, um)  # вычисленный синус
-    sinus2 = u(u0, um)[373:408]  # кусок синуса для выходного сигнала
 
     uf_approx = logarithmic_f(saw_approx, a_opt, b_opt, c_opt)  # аппроксимация зависимости сигнала от пилы
-    uf_approx_sinus = logarithmic_f(sinus2, a_opt, b_opt, c_opt)  # аппроксимация выходного сигнала
+    uf_approx_sinus = logarithmic_f(sinus, a_opt, b_opt, c_opt)  # аппроксимация выходного сигнала
 
-    return uf_approx, uf_approx_sinus, sinus2
-
-
-def uf_func(l_border: int, r_border: int) -> tuple:
-    uf_approx = g_gs_approx(l_border, r_border)[0]
-    uf_approx_sinus = g_gs_approx(l_border, r_border)[1]
-
-    x_value = np.array([i for i in range(len(uf_approx_sinus))])  # массив точек для аппроксимации
-
-    params, params_covariance = curve_fit(sin_f, x_value, uf_approx_sinus)
-
-    a, b, c, d = params
-
-    x_smooth = np.linspace(0, len(uf_approx_sinus) - 1, 1000)  # массив точек для гладкой аппроксимации
-    uf = sin_f(x_smooth, a, b, c, d)  # гладкая аппроксимация выходного сигнала
-
-    # for i in range(len(uf)):
-    #     uf[i] = uf[i] * 0.98
-
-    return uf, c
+    return uf_approx, uf_approx_sinus, sinus
 
 
-Uf_approx = g_gs_approx(7, 8)[0]
-Uf_approx_sinus = g_gs_approx(7, 8)[1]
-U_signal = g_gs_approx(7, 8)[2]
-Uf = uf_func(7, 8)[0]
+# def uf_func(l_border: int, r_border: int) -> tuple:
+#
+#     uf_approx_sinus = g_gs_approx(l_border, r_border)[1]
+#
+#     x_value = np.array([i for i in range(len(uf_approx_sinus))])  # массив точек для аппроксимации
+#
+#     params, params_covariance = curve_fit(sin_f, x_value, uf_approx_sinus)
+#
+#     a, b, c, d = params
+#
+#     x_smooth = np.linspace(0, len(uf_approx_sinus) - 1, 1000)  # массив точек для гладкой аппроксимации
+#     uf = sin_f(x_smooth, a, b, c, d)  # гладкая аппроксимация выходного сигнала
+#
+#     # for i in range(len(uf)):
+#     #     uf[i] = uf[i] * 0.98
+#
+#     return uf, c
+
+
+Uf_approx = g_gs_approx(left, right)[0]
+Uf_approx_sinus = g_gs_approx(left, right)[1]
+U_signal = g_gs_approx(left, right)[2]
 
 
 # plt.figure()
-# plt.title('Выходной сигнал с увеличенной дискретизацией')
-# plt.ylabel('Выходной сигнал, В')
+# plt.title('Сигнал стандарта частоты после модулятора')
+# plt.ylabel('Uфп, В')
 # plt.xlabel('Время, с')
 # plt.grid(True)
-# plt.scatter(gs, g, label='Зависимость входного от пилообразного сигнала') # точки зависимости сигнала от пилы
+# plt.scatter(gs, g, label='Зависимость Uфп от Uп')  # точки зависимости сигнала от пилы
 # plt.plot(saw_approx, Uf_approx, color="r",
 #          label='Аппроксимация логарифмом')  # аппроксимация зависимости сигнала от пилы
-# plt.plot(time, Uf_approx_sinus)  # зависимость аппроксимированного сигнала фотоприемника от времени синусоиды
-# plt.plot(time, U_signal)  # выходной сигнал
-# plt.plot(time_for_sin[200:800], Uf[200:800])  # гладкий выходной сигнал
+# plt.plot(time_for_sin, Uf_approx_sinus)  # зависимость аппроксимированного сигнала фотоприемника от времени синусоиды
+# plt.plot(time_for_sin, U_signal)  # выходной сигнал
 # plt.legend()
 # plt.show()

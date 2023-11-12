@@ -1,11 +1,12 @@
 import numpy as np
 from numpy.fft import fftshift, rfft, irfft
 from scipy.fft import fft, fftfreq, ifft
-from approximation import uf_func
-# from frequency_calculation.freq import frequency
 import cmath as cm
 import matplotlib.pyplot as plt
-from frequency_calculation.freq_for_smooth import frequency_for_smooth
+
+from approximation import Uf_approx_sinus
+from frequency_calculation.freq import freq
+from sinus_calc import left, right
 
 fourier_transform = []  # Список значений преобразований Фурье
 
@@ -16,12 +17,14 @@ def fourier_func(f, y_f: list[float], time: list[float]) -> list[float]:
 
 
 time_for_sin = np.linspace(-5*10e-7, 5*10e-7, 1000)
-Uf = (uf_func(7, 8))[0]
 dot_value = 1000
-yf = fft(uf_func(7, 8)[0])
+yf = fft(Uf_approx_sinus)
+# yf = np.array(yf)
+# yf = np.roll(yf, 800)
 # yf = fftshift(yf)
 # print(np.abs(yf))
-xf = fftfreq(dot_value, 1 / frequency_for_smooth)
+xf = fftfreq(dot_value, 1 / freq)
+
 
 # plt.plot(xf, np.abs(yf))
 # for i in range(len(yf)):
@@ -51,11 +54,11 @@ clear_sig = ifft(yf)
 
 # Проверка после фильтрации
 
-# yf1 = fft(clear_sig)
-# xf1 = fftfreq(dot_value, 1 / frequency)
+yf1 = fft(clear_sig)
+xf1 = fftfreq(dot_value, 1 / freq)
 
 plt.title('Очищенный сигнал')
-plt.ylabel('Напряжение, В')
+plt.ylabel('Uфп, В')
 plt.xlabel('Время, с')
 plt.grid(True)
 # plt.plot(xf1, np.abs(yf1))
