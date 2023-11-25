@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 from approximation import Uf_approx_sinus
 from frequency_calculation.freq import freq
-from sinus_calc import left, right
+from main import left, right
 
 fourier_transform = []  # Список значений преобразований Фурье
 
@@ -16,7 +16,7 @@ def fourier_func(f, y_f: list[float], time: list[float]) -> list[float]:
     return y_f*np.exp(j*f*time)
 
 
-time_for_sin = np.linspace(-5*10e-7, 5*10e-7, 1000)
+time_for_sin = np.linspace(-8.1*10e-8, 8.1*10e-8, 1000)
 dot_value = 1000
 yf = fft(Uf_approx_sinus)
 # yf = np.array(yf)
@@ -24,6 +24,7 @@ yf = fft(Uf_approx_sinus)
 # yf = fftshift(yf)
 # print(np.abs(yf))
 xf = fftfreq(dot_value, 1 / freq)
+# xf = [i + 1*10e6 for i in xf]
 
 
 # plt.plot(xf, np.abs(yf))
@@ -31,7 +32,14 @@ xf = fftfreq(dot_value, 1 / freq)
 #     if yf[i] == max(yf):
 #         print(i)
 
-yf[:2] = 0
+shift = 16
+
+yf = np.roll(yf, shift)
+plt.plot(xf, np.abs(yf))
+yf[:shift] = 0
+yf[shift + 1:] = 0
+# print(np.abs(yf))
+
 
 # Подстройка для вывода графиков
 
@@ -42,6 +50,13 @@ yf[:2] = 0
 # print('Отношение амплитуды 2 гармоники к 1:', yf_100/yf_0, '\n', 'Отношение амплитуды 3 гармоники к 1:', yf_200/yf_0)
 
 clear_sig = ifft(yf)
+cut_clear_sig = clear_sig[485:515]
+cut_time = time_for_sin[485:515]
+
+
+# for i in range(len(clear_sig)):
+#     if i % 2 == 0:
+#         clear_sig[i] = -1 * clear_sig[i]
 
 # Обратное преобразование Фурье
 
@@ -57,12 +72,12 @@ clear_sig = ifft(yf)
 yf1 = fft(clear_sig)
 xf1 = fftfreq(dot_value, 1 / freq)
 
+
 plt.title('Очищенный сигнал')
 plt.ylabel('Uфп, В')
 plt.xlabel('Время, с')
 plt.grid(True)
 # plt.plot(xf1, np.abs(yf1))
-plt.plot(time_for_sin, clear_sig)
-# plt.plot(fourier_transform)
-# plt.plot(time_for_sin, cut_signal)
+# plt.plot(time_for_sin, clear_sig)
+# plt.plot(cut_time, cut_clear_sig)
 plt.show()

@@ -2,7 +2,7 @@ import numpy as np
 from scipy.optimize import curve_fit
 
 from approximation import uf_func
-from sinus_calc import find_max_x, find_min_x, u_params_calc
+from main import find_max_x, find_min_x, u_params_calc
 import matplotlib.pyplot as plt
 
 phase_list = [2.0566935545441294, 2.059077016866184, 2.0201007875274044, 1.959933418576996, 2.059077016866184,

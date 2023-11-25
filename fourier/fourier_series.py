@@ -2,7 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from scipy.integrate import quad
 
-from sinus_calc import graph
+from main import graph
 
 f = 1e7
 T = 2*np.pi

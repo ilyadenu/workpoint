@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
-from sinus_calc import u, graph_saw, graph, left, right
-from sinus_calc import u_params_calc
+from main import u, graph_saw, graph, left, right
+from main import u_params_calc
 
 
 def logarithmic_f(x, a, b, c):  # функция для аппроксимации логарифмом

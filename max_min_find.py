@@ -1,5 +1,5 @@
 from approximation import uf_func
-from sinus_calc import left, right
+from main import left, right
 
 Uf = uf_func(left, right)[0]
 
