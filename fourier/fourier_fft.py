@@ -16,26 +16,46 @@ def fourier_func(f, y_f: list[float], time: list[float]) -> list[float]:
     return y_f*np.exp(j*f*time)
 
 
+def harmonics_calc(y_value: list) -> list:
+
+    harm_rel = []
+    harmonics_list = [h for h in np.abs(y_value) if h > 0.22]
+    harmonics_list.sort(reverse=True)
+    harm_rel.append(harmonics_list[0])
+    j = 0
+
+    for i in range(len(harmonics_list) - 3):
+        avg = (harmonics_list[i+j+1] + harmonics_list[i+j+2]) / 2
+        harm_rel.append(avg)
+        j += 1
+
+    return harm_rel
+
+
 time_for_sin = np.linspace(-8.1*10e-8, 8.1*10e-8, 1000)
 dot_value = 1000
-yf = fft(Uf_approx_sinus)
-# yf = np.array(yf)
-# yf = np.roll(yf, 800)
-# yf = fftshift(yf)
-# print(np.abs(yf))
-xf = fftfreq(dot_value, 1 / freq)
-# xf = [i + 1*10e6 for i in xf]
 
+yf = fft(Uf_approx_sinus)
+# print(np.abs(yf))
+
+xf = fftfreq(dot_value, 1 / freq)
+xf = [i + 1*10e6 for i in xf]
 
 # plt.plot(xf, np.abs(yf))
-# for i in range(len(yf)):
-#     if yf[i] == max(yf):
-#         print(i)
+
+# Расчет отношения гармоник
+
+h2_h1_rel = harmonics_calc(yf)[1] / harmonics_calc(yf)[0]
+h3_h2_rel = harmonics_calc(yf)[2] / harmonics_calc(yf)[1]
+h3_h1_rel = harmonics_calc(yf)[2] / harmonics_calc(yf)[0]
+# print('Отношение 2 гармоники к 1 = ', h2_h1_rel, '\n',
+#       'Отношение 3 гармоники к 2 = ', h3_h2_rel, '\n',
+#       'Отношение 3 гармоники к 1 = ', h3_h1_rel)
 
 shift = 16
 
 yf = np.roll(yf, shift)
-plt.plot(xf, np.abs(yf))
+
 yf[:shift] = 0
 yf[shift + 1:] = 0
 # print(np.abs(yf))
@@ -80,4 +100,4 @@ plt.grid(True)
 # plt.plot(xf1, np.abs(yf1))
 # plt.plot(time_for_sin, clear_sig)
 # plt.plot(cut_time, cut_clear_sig)
-plt.show()
+# plt.show()

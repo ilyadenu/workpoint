@@ -9,8 +9,8 @@ def logarithmic_f(x, a, b, c):  # функция для аппроксимаци
     return a * np.log2(x - b) - c
 
 
-# def parabolic_f(x,a,b,c): # функция для аппроксимации параболой
-#     return -a*(x**2 + b) + c
+def parabolic_f(x, a, b, c):  # функция для аппроксимации параболой
+    return -a*(x**2 + b) + c
 
 
 def sin_f(x, a, b, c, d):  # функция для аппроксимации синусоидой
@@ -29,6 +29,7 @@ def g_gs_approx(l_border: int, r_border: int) -> tuple:
 
     a_opt, b_opt, c_opt = popt
 
+
     u0 = u_params_calc(l_border, r_border)[0]
     um = u_params_calc(l_border, r_border)[1]
     sinus = u(u0, um)  # вычисленный синус
@@ -39,23 +40,23 @@ def g_gs_approx(l_border: int, r_border: int) -> tuple:
     return uf_approx, uf_approx_sinus, sinus
 
 
-# def uf_func(l_border: int, r_border: int) -> tuple:
-#
-#     uf_approx_sinus = g_gs_approx(l_border, r_border)[1]
-#
-#     x_value = np.array([i for i in range(len(uf_approx_sinus))])  # массив точек для аппроксимации
-#
-#     params, params_covariance = curve_fit(sin_f, x_value, uf_approx_sinus)
-#
-#     a, b, c, d = params
-#
-#     x_smooth = np.linspace(0, len(uf_approx_sinus) - 1, 1000)  # массив точек для гладкой аппроксимации
-#     uf = sin_f(x_smooth, a, b, c, d)  # гладкая аппроксимация выходного сигнала
-#
-#     # for i in range(len(uf)):
-#     #     uf[i] = uf[i] * 0.98
-#
-#     return uf, c
+def uf_func(l_border: int, r_border: int) -> tuple:
+
+    uf_approx_sinus = g_gs_approx(l_border, r_border)[1]
+
+    x_value = np.array([i for i in range(len(uf_approx_sinus))])  # массив точек для аппроксимации
+
+    params, params_covariance = curve_fit(sin_f, x_value, uf_approx_sinus)
+
+    a, b, c, d = params
+
+    x_smooth = np.linspace(0, len(uf_approx_sinus) - 1, 1000)  # массив точек для гладкой аппроксимации
+    uf = sin_f(x_smooth, a, b, c, d)  # гладкая аппроксимация выходного сигнала
+
+    # for i in range(len(uf)):
+    #     uf[i] = uf[i] * 0.98
+
+    return uf, c
 
 
 Uf_approx = g_gs_approx(left, right)[0]

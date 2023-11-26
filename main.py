@@ -101,12 +101,12 @@ def u_params_calc(l_border: int, r_border: int):
 # graph_up = [i*250 for i in graph[left]]
 # U0 = u_params_calc(left, right)[0]
 # Um = u_params_calc(left, right)[1]
+# print("Значение параметра U0 =", U0, "\n", "Значение параметра Um =", Um)
 # plt.figure()
 # plt.title('Зависимость Uфп от Uп')
 # plt.ylabel('Uфп, В')
 # plt.xlabel('Uп, В')
 # plt.grid(True)
-# print("Значение параметра U0 =", U0, "\n", "Значение параметра Um =", Um)
 # plt.plot(osc_time, graph_up, label='Uфп * 250')  # исходный график сигнала
 # plt.plot(osc_time, graph_saw[left], label='Uп')  # исходный график пилы
 # plt.plot(graph_saw[left][495:530], graph[left][495:530])  # зависимость сигнала фотоприемника от пилы
