@@ -1,8 +1,7 @@
 import numpy as np
-from matplotlib import pyplot as plt
 from scipy.integrate import quad
 
-from main import graph
+from archive.main_old import graph
 
 f = 1e7
 T = 2*np.pi
