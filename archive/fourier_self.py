@@ -1,8 +1,6 @@
 import numpy as np
-import matplotlib.pyplot as plt
-from numpy.fft import irfft
 
-from approximation import Uf, time_for_sin
+from archive.approximation_old import Uf
 
 
 def fourier_trans(data, k: int) -> tuple:
