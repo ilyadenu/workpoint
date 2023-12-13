@@ -23,7 +23,7 @@ class InitialConditions:
 
     def export_from_excel(self):
 
-        directory = 'measurements'
+        directory = '/home/admin/PycharmProjects/workpoint/measurements'
 
         for filename in os.listdir(directory):
             f = os.path.join(directory, filename)
@@ -107,7 +107,7 @@ class InitialConditions:
 
         """Функция расчета параметров синусоиды"""
 
-        self.u0 = (self.average_max_x[0] + self.average_min_x[0]) / 3
+        self.u0 = (self.average_max_x[0] + self.average_min_x[0]) / 0.000001
         self.um = (self.average_max_x[0] - self.u0) / 1
 
         return self.u0, self.um

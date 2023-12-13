@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from approximation import Approximation
+from archive.stat import Uf_approx_sinus_stat
 from filtration import FourierFilter
 
 
@@ -42,6 +43,8 @@ class Main(Approximation, FourierFilter):
 
             plt.plot(self.graph_saw[self.first_file][495:530],
                      self.graph[self.first_file][495:530])  # зависимость сигнала фотоприемника от пилы
+            plt.plot(self.time,
+                     self.uf_approx_sinus)  # зависимость аппроксимированного сигнала фотоприемника от времени синусоиды
 
         else:
 
@@ -79,8 +82,10 @@ class Main(Approximation, FourierFilter):
             plt.ylabel('Uфп, В')
             plt.xlabel('Время, с')
 
-            plt.plot(self.time,
-                     self.uf_approx_sinus)  # зависимость аппроксимированного сигнала фотоприемника от времени синусоиды
+            plt.plot(self.time[470:520],
+                     self.uf_approx_sinus[470:520])  # зависимость аппроксимированного сигнала фотоприемника от времени синусоиды
+            plt.plot(self.time[470:520],
+                     Uf_approx_sinus_stat[470:520])
 
         plt.show()
 

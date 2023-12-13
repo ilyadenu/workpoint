@@ -116,5 +116,5 @@ class FourierFilter:
 filter_ = FourierFilter()
 filter_.frequency()
 filter_.fft_for_signal()
-filter_.harmonics_calc()
+# filter_.harmonics_calc()
 
