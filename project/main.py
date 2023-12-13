@@ -30,7 +30,7 @@ class Main(Approximation, FourierFilter):
             graph_up = [i * 250 for i in self.graph[self.first_file]]
             plt.plot(self.osc_time,
                      graph_up,
-                     label='Uфп * 250')  # зависимость аппроксимированного сигнала фотоприемника от времени синусоиды
+                     label='Uфп * 250')  # исходный график сигнала фотоприемника
             plt.plot(self.osc_time, self.graph_saw[self.first_file], label='Uп')  # исходный график пилы
             plt.legend()
 
@@ -114,5 +114,5 @@ class Main(Approximation, FourierFilter):
 if __name__ == '__main__':
     main = Main(17, 18)
     # main.init_cond_plots(3)
-    # main.approximation_plots(2)
-    main.filtration_plots(2)
+    main.approximation_plots(2)
+    # main.filtration_plots(2)
