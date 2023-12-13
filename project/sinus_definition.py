@@ -23,7 +23,7 @@ class InitialConditions:
 
     def export_from_excel(self):
 
-        directory = '/home/admin/Work/50_измерений'
+        directory = 'measurements'
 
         for filename in os.listdir(directory):
             f = os.path.join(directory, filename)
