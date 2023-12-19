@@ -1,14 +1,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from approximation import Approximation
 from archive.stat import Uf_approx_sinus_stat
 from filtration import FourierFilter
+from phase import PhaseCalculation
 
 
-class Main(Approximation, FourierFilter):
+class Main(FourierFilter, PhaseCalculation):
 
     def __init__(self, first_file: int, last_file: int):
-        Approximation.__init__(self, first_file, last_file)
+        PhaseCalculation.__init__(self, first_file, last_file)
         FourierFilter.__init__(self)
 
     def init_cond_plots(self, figure: int):
@@ -62,6 +62,7 @@ class Main(Approximation, FourierFilter):
         plt.grid(True)
         self.export_from_excel()
         self.g_gs_approx()
+        self.maximum_matching()
 
         if figure == 1:
 
@@ -83,9 +84,12 @@ class Main(Approximation, FourierFilter):
             plt.xlabel('Время, с')
 
             plt.plot(self.time[470:520],
-                     self.uf_approx_sinus[470:520])  # зависимость аппроксимированного сигнала фотоприемника от времени синусоиды
+                     self.uf_approx_sinus[470:520])  # зависимость аппроксимированного сигнала фотоприемника от
+            # времени синусоиды
             plt.plot(self.time[470:520],
                      Uf_approx_sinus_stat[470:520])
+
+            print(self.phase)
 
         plt.show()
 

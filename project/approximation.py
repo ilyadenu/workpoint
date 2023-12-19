@@ -1,7 +1,6 @@
 import numpy as np
 from scipy.optimize import curve_fit
 
-from archive.stat import Uf_approx_sinus_stat
 from sinus_definition import InitialConditions, init_sinus
 
 
@@ -61,21 +60,3 @@ approximation.export_from_excel()
 approximation.g_gs_approx()
 Uf_approx_sinus = approximation.uf_approx_sinus
 
-uf = Uf_approx_sinus[470:520]
-uf_1 = Uf_approx_sinus_stat[470:520]
-
-count = 0
-for i in range(len(uf)):
-    count += 1
-    if uf[i] == max(uf):
-        print(1)
-
-print(count)
-
-count_1 = 0
-for i in range(len(uf_1)):
-    count_1 += 1
-    if uf[i] == max(uf_1):
-        print(1)
-
-print(count_1)

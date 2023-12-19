@@ -18,8 +18,8 @@ class InitialConditions:
         self.find_position_min = []  # Индексы минимумов из списка graph
         self.average_max_x = []  # Максимумы по оси абцисс
         self.average_min_x = []  # Минимумы по оси абцисс
-        self.u0 = 0  # Параметры синусоиды
-        self.um = 0  # Параметры синусоиды
+        self.u0 = 0.  # Параметры синусоиды
+        self.um = 0.  # Параметры синусоиды
 
     def export_from_excel(self):
 
@@ -107,7 +107,7 @@ class InitialConditions:
 
         """Функция расчета параметров синусоиды"""
 
-        self.u0 = (self.average_max_x[0] + self.average_min_x[0]) / 0.000001
+        self.u0 = (self.average_max_x[0] + self.average_min_x[0]) / 3
         self.um = (self.average_max_x[0] - self.u0) / 1
 
         return self.u0, self.um
@@ -116,7 +116,7 @@ class InitialConditions:
 
         """Функция синусоидального сигнала, который подается на рабочую точку"""
 
-        return self.u0 + self.um * np.sin(self.omega * self.time)
+        return self.u0 + self.um * np.sin(self.omega * self.time + 0.3*np.pi)
 
     def func_for_start(self):
         self.export_from_excel()
