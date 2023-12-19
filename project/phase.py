@@ -1,5 +1,5 @@
 from approximation import Approximation, Uf_approx_sinus
-from archive.stat import Uf_approx_sinus_stat
+from auxiliary_files.stat import Uf_approx_sinus_stat
 
 
 class PhaseCalculation(Approximation):
@@ -9,6 +9,9 @@ class PhaseCalculation(Approximation):
         self.phase = 0.
 
     def maximum_matching(self):
+
+        """Функция для расчета сдвига фазы от изменения рабочей точки"""
+
         uf = Uf_approx_sinus[470:520]
         uf_stat = Uf_approx_sinus_stat[470:520]
 

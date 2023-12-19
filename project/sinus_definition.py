@@ -116,7 +116,7 @@ class InitialConditions:
 
         """Функция синусоидального сигнала, который подается на рабочую точку"""
 
-        return self.u0 + self.um * np.sin(self.omega * self.time + 0.3*np.pi)
+        return self.u0 + self.um * np.sin(self.omega * self.time)
 
     def func_for_start(self):
         self.export_from_excel()

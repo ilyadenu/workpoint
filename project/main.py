@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from archive.stat import Uf_approx_sinus_stat
+from auxiliary_files.phase_list import phase_list, len_phase_list
+from auxiliary_files.stat import Uf_approx_sinus_stat
 from filtration import FourierFilter
 from phase import PhaseCalculation
 
@@ -119,9 +120,22 @@ class Main(FourierFilter, PhaseCalculation):
 
         plt.show()
 
+    @staticmethod
+    def phase_shift_plots():
+
+        plt.figure()
+        plt.grid(True)
+        plt.title('Сдвиг фазы')
+        plt.ylabel('Фазы')
+        plt.xlabel('Значения')
+
+        plt.scatter(len_phase_list, phase_list)
+        plt.show()
+
 
 if __name__ == '__main__':
     main = Main(17, 18)
     # main.init_cond_plots(3)
     main.approximation_plots(2)
     # main.filtration_plots(2)
+    # main.phase_shift_plots()
