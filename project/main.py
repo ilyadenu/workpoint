@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from auxiliary_files.phase_list import phase_list, len_phase_list
+from auxiliary_files.phase_list import phase_list, U0_list
 from auxiliary_files.stat import Uf_approx_sinus_stat
 from filtration import FourierFilter
 from phase import PhaseCalculation
+from project.approximation import Uf_approx_sinus
 
 
 class Main(FourierFilter, PhaseCalculation):
@@ -25,7 +26,7 @@ class Main(FourierFilter, PhaseCalculation):
 
         if figure == 1:
 
-            plt.title('Начальные условия')
+            # plt.title('Начальные условия')
             plt.ylabel('Uфп, В')
             plt.xlabel('Время, с')
 
@@ -38,18 +39,16 @@ class Main(FourierFilter, PhaseCalculation):
 
         elif figure == 2:
 
-            plt.title('Зависимость Uфп от Uп')
+            # plt.title('Зависимость Uфп от Uп')
             plt.ylabel('Uфп, В')
             plt.xlabel('Uп, В')
 
             plt.plot(self.graph_saw[self.first_file][495:530],
                      self.graph[self.first_file][495:530])  # зависимость сигнала фотоприемника от пилы
-            plt.plot(self.time,
-                     self.uf_approx_sinus)  # зависимость аппроксимированного сигнала фотоприемника от времени синусоиды
 
         else:
 
-            plt.title('Стандарт частоты')
+            # plt.title('Стандарт частоты')
             plt.ylabel('Uсч, В')
             plt.xlabel('Время, с')
 
@@ -67,7 +66,7 @@ class Main(FourierFilter, PhaseCalculation):
 
         if figure == 1:
 
-            plt.title('Аппроксимирование зависимости Uфп от Uп')
+            # plt.title('Аппроксимирование зависимости Uфп от Uп')
             plt.ylabel('Uфп, В')
             plt.xlabel('Uп, В')
 
@@ -80,17 +79,15 @@ class Main(FourierFilter, PhaseCalculation):
 
         else:
 
-            plt.title('Сигнал стандарта частоты после модулятора')
+            # plt.title('Сигнал стандарта частоты после модулятора')
             plt.ylabel('Uфп, В')
             plt.xlabel('Время, с')
 
-            plt.plot(self.time[470:520],
-                     self.uf_approx_sinus[470:520])  # зависимость аппроксимированного сигнала фотоприемника от
+            plt.plot(self.time,
+                     Uf_approx_sinus)  # зависимость аппроксимированного сигнала фотоприемника от
             # времени синусоиды
-            plt.plot(self.time[470:520],
-                     Uf_approx_sinus_stat[470:520])
-
-            print(self.phase)
+            # plt.plot(self.time[470:520],
+            #          Uf_approx_sinus_stat[470:520])
 
         plt.show()
 
@@ -104,15 +101,15 @@ class Main(FourierFilter, PhaseCalculation):
 
         if figure == 1:
 
-            plt.title('Гармоники')
+            # plt.title('Гармоники')
             plt.ylabel('Амплитуда')
             plt.xlabel('Частота, Гц')
 
-            plt.plot(self.freq, np.abs(self.direct_trans_with_harms))
+            plt.plot(self.freq_half, np.abs(self.direct_trans_with_harms))
 
         else:
 
-            plt.title('Очищенный сигнал')
+            # plt.title('Очищенный сигнал')
             plt.ylabel('Uфп, В')
             plt.xlabel('Время, с')
 
@@ -125,17 +122,21 @@ class Main(FourierFilter, PhaseCalculation):
 
         plt.figure()
         plt.grid(True)
-        plt.title('Сдвиг фазы')
-        plt.ylabel('Фазы')
-        plt.xlabel('Значения')
+        # plt.title('Сдвиг фазы')
+        plt.ylabel('Фаза, рад')
+        plt.xlabel('U0, В')
 
-        plt.scatter(len_phase_list, phase_list)
+        plt.scatter(U0_list, phase_list)
         plt.show()
+
+    @staticmethod
+    def phase_shift_after_fft():
+        pass
 
 
 if __name__ == '__main__':
     main = Main(17, 18)
     # main.init_cond_plots(3)
-    main.approximation_plots(2)
-    # main.filtration_plots(2)
+    # main.approximation_plots(2)
+    main.filtration_plots(1)
     # main.phase_shift_plots()

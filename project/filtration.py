@@ -1,11 +1,12 @@
 import numpy as np
-from numpy.fft import fft, fftfreq, ifft
+from numpy.fft import fft, fftfreq, ifft, irfft, rfft
 from approximation import Uf_approx_sinus
 
 
 class FourierFilter:
 
     def __init__(self):
+        self.freq_half = 0
         self.freq_time = np.linspace(-5 * 10e-7, 5 * 10e-7, 1000)
         self.fft_time = np.linspace(-8.1*10e-8, 8.1*10e-8, 1000)
         self.dot_value = 1000
@@ -70,10 +71,10 @@ class FourierFilter:
             Затем происходит перевод из частотной области во временную.
             На выходе получается очищенный от гармоник сигнал."""
 
-        self.direct_trans_with_harms = fft(Uf_approx_sinus)
-
+        self.direct_trans_with_harms = rfft(Uf_approx_sinus)
         freq = fftfreq(self.dot_value, 1 / self.func_frequency)
-        self.freq = [i + 1 * 10e6 for i in freq]
+        self.freq = [i + 2 * 10e6 for i in freq]
+        self.freq_half = self.freq[499:]
 
         shift = 16
 
@@ -82,7 +83,7 @@ class FourierFilter:
         self.direct_trans[:shift] = 0
         self.direct_trans[shift + 1:] = 0
 
-        self.inverse_trans = ifft(self.direct_trans)
+        self.inverse_trans = irfft(self.direct_trans)
 
         return self.direct_trans, self.freq, self.inverse_trans
 

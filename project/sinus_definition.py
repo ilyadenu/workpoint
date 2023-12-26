@@ -109,6 +109,7 @@ class InitialConditions:
 
         self.u0 = (self.average_max_x[0] + self.average_min_x[0]) / 3
         self.um = (self.average_max_x[0] - self.u0) / 1
+        print(f'Параметр U0 = {self.u0}, параметр Um = {self.um}')
 
         return self.u0, self.um
 

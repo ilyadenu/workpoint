@@ -28,6 +28,7 @@ class PhaseCalculation(Approximation):
                 time_static = self.time[470+count_stat]
 
         self.phase = abs(time_dynamic - time_static)
+        self.phase = self.phase/(1*10e-7)
 
         return self.phase
 
